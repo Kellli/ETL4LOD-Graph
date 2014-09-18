@@ -216,30 +216,30 @@ public class GraphSemanticLevelMarkerStep extends BaseStep implements StepInterf
 	}
 
 	private Statement markGraphSemanticLevel (Model inputModel, String rulesFileName, String LOVFileName)
-    {
+	{
         // Variables initializations
     	ResIterator resourceSet = inputModel.listSubjects();
     	Model innerModel = ModelFactory.createDefaultModel();
-		Resource r = resourceSet.nextResource();
-		Property p = ResourceFactory.createProperty("sstamp:hassemanticlevel");
-		
-		//Tive que criar um model para trabalhar com um Resource
-		Statement outputGraphSemanticLevel = innerModel.createStatement(r, p, "sstamp:notMarked");
-		
-    	// Identify the levels of each statement on the inputGraph
+		Resource resource = resourceSet.nextResource();
+		Property property = ResourceFactory.createProperty("sstamp:hassemanticlevel");
+		Statement outputGraphSemanticLevel = 
+				innerModel.createStatement(resource, property, "sstamp:notMarked");
 		StmtIterator statementSet = inputModel.listStatements();
 		Integer valueLevel = 0;
 
+		// Loop on each statement of the inputGraph
 		while (statementSet.hasNext())
         {
-        	Statement s = statementSet.nextStatement();
+        	Statement statement = statementSet.nextStatement();
         	
-        	// TODO: investigar o melhor uso dos tipos Resource, Predicate, RDFNode para avaliar o nível semântico
-        	String semanticLevel = assessSemanticLevel(s, rulesFileName, LOVFileName);
+        	// Assess Semantic Level of the statement
+        	String semanticLevel = assessSemanticLevel(statement, rulesFileName, LOVFileName);
 
+        	// Evaluate if it is the highest level
         	if (valueLevel < assessedValueLevel)
         	{
-	        	outputGraphSemanticLevel = innerModel.createStatement(r, p, semanticLevel);
+	        	outputGraphSemanticLevel = 
+	        			innerModel.createStatement(resource, property, semanticLevel);
 	            valueLevel = assessedValueLevel;   
         	
         	}
@@ -253,12 +253,7 @@ public class GraphSemanticLevelMarkerStep extends BaseStep implements StepInterf
         Interpreter i = new Interpreter();
         
         String assessedDescriptionLevel ="NotIdentified";
-
-        
-        // Is Literal?
-        //if (s.getLiteral() != null)
-          //  assessedLevel="laiid:low"; 
-        	
+     	
         String inputSubject = s.getSubject().toString();
 		String inputPredicate = s.getPredicate().toString();
 		String inputObject = s.getObject().toString();
@@ -316,7 +311,6 @@ public class GraphSemanticLevelMarkerStep extends BaseStep implements StepInterf
                     	assessedDescriptionLevel = textLDescriptionList.item(0).getNodeValue().trim();
                     	assessedValueLevel = Integer.valueOf(textLValueList.item(0).getNodeValue());
                     	
-                    	//TODO avaliar sair do for
                     }       
             	}		 
             }
@@ -350,11 +344,13 @@ private static boolean isOntology(String prefix, Document doc) {
     	Element literalElement = (Element)literalList.item(0);
     	NodeList textLiList = literalElement.getChildNodes();
     	if(prefix.equals(textLiList.item(0).getNodeValue().trim())){
+
     		//busca se é ontologia no 'vocabDescription'
     		Element bindingDescElement = (Element)bindingList.item(3);
     		NodeList literalDescList = bindingDescElement.getElementsByTagName("literal");
         	Element literalDescElement = (Element)literalDescList.item(0);
         	NodeList textDescList = literalDescElement.getChildNodes();
+
         	//busca se é ontologia no 'vocabTitle'
     		Element bindingTitleElement = (Element)bindingList.item(2); 
     		NodeList literalTitleList = bindingTitleElement.getElementsByTagName("literal");

@@ -9,6 +9,34 @@
 	<results>
 		<result>
 			<binding name='vocabPrefix'>
+				<literal>laiid</literal>
+			</binding>
+			<binding name='vocabURI'>
+				<uri>http://greco.ppgi.ufrj.br/laiid</uri>
+			</binding>
+			<binding name='vocabTitle'>
+				<literal xml:lang='en'>Ontology for Humanitarian Logistic</literal>
+			</binding>
+			<binding name='vocabDescription'>
+				<literal xml:lang='en'>An ontology for humanitarian logistic</literal>
+			</binding>
+		</result>
+		<result>
+			<binding name='vocabPrefix'>
+				<literal>geo</literal>
+			</binding>
+			<binding name='vocabURI'>
+				<uri>http://www.w3.org/2003/01/geo/wgs84_pos</uri>
+			</binding>
+			<binding name='vocabTitle'>
+				<literal xml:lang='en'>WGS84 Geo Positioning</literal>
+			</binding>
+			<binding name='vocabDescription'>
+				<literal xml:lang='en'>A vocabulary for representing latitude, longitude and   altitude information in the WGS84 geodetic reference datum.</literal>
+			</binding>
+		</result>
+		<result>
+			<binding name='vocabPrefix'>
 				<literal>acco</literal>
 			</binding>
 			<binding name='vocabURI'>
@@ -1923,20 +1951,6 @@
 			</binding>
 			<binding name='vocabDescription'>
 				<literal xml:lang='en'>A simple RDF vocabulary containing terms to facilitate the linking of genealogical data.</literal>
-			</binding>
-		</result>
-		<result>
-			<binding name='vocabPrefix'>
-				<literal>geo</literal>
-			</binding>
-			<binding name='vocabURI'>
-				<uri>http://www.w3.org/2003/01/geo/wgs84_pos</uri>
-			</binding>
-			<binding name='vocabTitle'>
-				<literal xml:lang='en'>WGS84 Geo Positioning</literal>
-			</binding>
-			<binding name='vocabDescription'>
-				<literal xml:lang='en'>A vocabulary for representing latitude, longitude and   altitude information in the WGS84 geodetic reference datum.</literal>
 			</binding>
 		</result>
 		<result>
@@ -6475,19 +6489,6 @@
 				<literal xml:lang='en'>Extensions to SKOS and other standard vocabularies used by the German National Library of Economics (ZBW)</literal>
 			</binding>
 		</result>
-				<result>
-			<binding name='vocabPrefix'>
-				<literal>laiid</literal>
-			</binding>
-			<binding name='vocabURI'>
-				<uri>http://greco.ppgi.ufrj.br/laiid</uri>
-			</binding>
-			<binding name='vocabTitle'>
-				<literal xml:lang='en'>Ontology for Humanitarian Logistic</literal>
-			</binding>
-			<binding name='vocabDescription'>
-				<literal xml:lang='en'>An ontology for humanitarian logistic</literal>
-			</binding>
-		</result>
+
 	</results>
 </sparql>

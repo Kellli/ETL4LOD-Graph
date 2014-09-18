@@ -82,15 +82,11 @@
 	</properties>	
 
     <modules>
-		<!-- Modulos descartado -->
-		<!-- <module>GraphSparqlEndpoint</module> -->
+		<!--
 		<module>GraphTriplify</module>
-		<!-- Modulos ainda nao migrados -->
-        <!-- <module>DataPropertyMapping</module> -->
-        <!-- <module>ntriplegenerator</module> -->
-        <!-- <module>ObjectPropertyMapping</module> -->
-		<!-- <module>SparqlUpdateOutput</module> -->
 		<module>GraphSemanticLevelMarker</module>
+		<module>GraphSparqlEndpoint</module> -->
+		<module>Silk</module>
     </modules>
 
     <build>
@@ -182,6 +178,13 @@
 			<artifactId>jena-core</artifactId>
 			<version>2.12.0</version>
 		</dependency>
+		
+		<dependency>
+	<groupId>de.fuberlin.wiwiss.silk</groupId>
+	<artifactId>silk</artifactId>
+	<version>2.5.3</version>
+</dependency>
+
 		
 		<!-- local dependencies -->
 		<!-- Obs: To install local dependencies, run maven_install_local_libs.bat -->

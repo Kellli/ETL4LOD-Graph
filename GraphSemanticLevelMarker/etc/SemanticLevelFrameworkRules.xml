@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SemanticLevelFramework>
     <Frame id="1">
-      <Rule>s.getLiteral() != null</Rule>
+      <Rule>statement.getLiteral() != null</Rule>
       <LevelValue>1</LevelValue>
       <LevelDescription>sstamp:low</LevelDescription>
    </Frame>

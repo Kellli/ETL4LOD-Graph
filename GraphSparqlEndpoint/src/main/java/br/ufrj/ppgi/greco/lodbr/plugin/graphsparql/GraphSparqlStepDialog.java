@@ -83,7 +83,7 @@ public class GraphSparqlStepDialog extends BaseStepDialog implements
         swthlp = new SwtHelper(transMeta, this.props);
 
         // TODO: Additional initialization here
-        dialogTitle = "Sparql Endpoint";
+        dialogTitle = "Grpah Sparql Endpoint";
     }
 
     // TODO Criar widgets especificos da janela
@@ -95,12 +95,12 @@ public class GraphSparqlStepDialog extends BaseStepDialog implements
 
         // Create Tab
         CTabItem item = new CTabItem(wTabFolder, SWT.NONE);
-        item.setText("SPARQL Endpoint");
+        item.setText("Graph SPARQL Endpoint");
         Composite cpt = swthlp.appendComposite(wTabFolder, null);
-        wEndpointUri = swthlp.appendTextVarRow(cpt, null, "Endere√ßo (URL):",
+        wEndpointUri = swthlp.appendTextVarRow(cpt, null, "EndereÁo (URL):",
                 defModListener);
         wDefaultGraph = swthlp.appendTextVarRow(cpt, wEndpointUri,
-                "Grafo padr√£o:", defModListener);
+                "Grafo padr„o:", defModListener);
         item.setControl(cpt);
 
         // Create Tab
@@ -185,7 +185,7 @@ public class GraphSparqlStepDialog extends BaseStepDialog implements
 
         // Create Tab
         item = new CTabItem(wTabFolder, SWT.NONE);
-        item.setText("Campos de Sa√≠da");
+        item.setText("Campos de SaÌda");
         cpt = swthlp.appendComposite(wTabFolder, null);
 
         wOutputResult = swthlp.appendTextVarRow(cpt, null, "Resultado:",
