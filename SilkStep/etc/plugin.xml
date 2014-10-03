@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<plugin
+   id="Silk"
+   iconfile="iconSilkStep.png"
+   description="SilkStep"
+   tooltip="Run Silk from a specification XML file"
+   category="LinkedDataBR - Graph"
+   classname="br.ufrj.ppgi.greco.trans.step.SilkStep.SilkStepMeta">
+   <libraries>
+		<library name="SilkStep.jar"/>
+		<library name="KettlePluginTools.jar"/>
+		<library name="silk-singlemachine-2.5.jar"/>
+	</libraries>
+</plugin>

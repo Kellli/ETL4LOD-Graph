@@ -1,4 +1,5 @@
-package br.ufrj.ppgi.greco.trans.step.graphtriplify;
+package br.ufrj.ppgi.greco.trans.step.SilkStep;
+
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -12,11 +13,9 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
@@ -26,75 +25,46 @@ import org.pentaho.di.i18n.BaseMessages;
 import org.pentaho.di.trans.TransMeta;
 import org.pentaho.di.trans.step.BaseStepMeta;
 import org.pentaho.di.trans.step.StepDialogInterface;
-import org.pentaho.di.ui.core.widget.ComboVar;
-import org.pentaho.di.ui.core.widget.TextVar;
 import org.pentaho.di.ui.trans.step.BaseStepDialog;
 
-import br.ufrj.ppgi.greco.kettle.plugin.tools.swthelper.SwtHelper;
 
 /**
- * Interface de usuario do step GraphTriplify.
+ * Interface de usuario do step Silk.
  * 
- * @author Rogers Reiche de Mendonca
+ * @author Camila Carvalho Ferreira
  * 
  */
-public class GraphTriplifyStepDialog extends BaseStepDialog implements
+public class SilkStepDialog extends BaseStepDialog implements
         StepDialogInterface
 {
     // for i18n purposes, needed by Translator2!! $NON-NLS-1$
-    private static Class<?> PKG = GraphTriplifyStepMeta.class;
+    private static Class<?> PKG = SilkStepMeta.class;
 
-    private GraphTriplifyStepMeta input;
-    private SwtHelper swthlp;
+    private SilkStepMeta input;
     private String dialogTitle;
 
     // Adicionar variaveis dos widgets
-    // Campos Step - Input
-    private Group wInputGroup;
-    private ComboVar wInputGraph;
-
-    // Campos Step - Output
-    private Group wOutputGroup;
-    private TextVar wOutputSubject;
-    private TextVar wOutputPredicate;
-    private TextVar wOutputObject;
+    private Label wlXml;
     
-    public GraphTriplifyStepDialog(Shell parent, Object stepMeta,
+    private Button wbXml;
+    private Text wXml;
+
+    private FormData fdlXml;
+    private FormData fdbXml;
+    private FormData fdXml;
+
+    
+    public SilkStepDialog(Shell parent, Object stepMeta,
             TransMeta transMeta, String stepname)
     {
         super(parent, (BaseStepMeta) stepMeta, transMeta, stepname);
 
-        input = (GraphTriplifyStepMeta) baseStepMeta;
-        swthlp = new SwtHelper(transMeta, this.props);
+        input = (SilkStepMeta) baseStepMeta;
 
         // Additional initialization here
-        dialogTitle = BaseMessages.getString(PKG, "GraphTriplifyStep.Title");
+        dialogTitle = BaseMessages.getString(PKG, "SilkStep.Title");
     }
-
-    private ComboVar appendComboVar(Control lastControl,
-            ModifyListener defModListener, Composite parent, String label)
-    {
-        ComboVar combo = swthlp.appendComboVarRow(parent, lastControl, label,
-                defModListener);
-        BaseStepDialog.getFieldsFromPrevious(combo, transMeta, stepMeta);
-        return combo;
-    }
-
-    // Criar widgets especificos da janela
-    private Control buildContents(Control lastControl,
-            ModifyListener defModListener)
-    {
-        wInputGroup = swthlp.appendGroup(shell, lastControl, BaseMessages.getString(PKG, "GraphTriplifyStep.Group.Input.Label"));
-        wInputGraph = appendComboVar(wInputGroup, defModListener, wInputGroup, BaseMessages.getString(PKG, "GraphTriplifyStep.GraphField.Label"));
-        
-        wOutputGroup = swthlp.appendGroup(shell, wInputGroup, BaseMessages.getString(PKG, "GraphTriplifyStep.Group.Output.Label"));
-        wOutputSubject = swthlp.appendTextVarRow(wOutputGroup, wOutputGroup, BaseMessages.getString(PKG, "GraphTriplifyStep.SubjectField.Label"), defModListener);
-        wOutputPredicate = swthlp.appendTextVarRow(wOutputGroup, wOutputSubject, BaseMessages.getString(PKG, "GraphTriplifyStep.PredicateField.Label"), defModListener);
-        wOutputObject = swthlp.appendTextVarRow(wOutputGroup, wOutputPredicate, BaseMessages.getString(PKG, "GraphTriplifyStep.ObjectField.Label"), defModListener);
-        
-        return wOutputGroup;
-    }
-
+    
     @Override
     public String open()
     {
@@ -116,6 +86,7 @@ public class GraphTriplifyStepDialog extends BaseStepDialog implements
                 input.setChanged();
             }
         };
+        
         boolean changed = input.hasChanged();
 
         FormLayout formLayout = new FormLayout();
@@ -129,39 +100,61 @@ public class GraphTriplifyStepDialog extends BaseStepDialog implements
         int middle = props.getMiddlePct();
         int margin = Const.MARGIN;
 
+
         // Adiciona um label e um input text no topo do dialog shell
         wlStepname = new Label(shell, SWT.RIGHT);
-        wlStepname.setText(BaseMessages.getString(PKG, "GraphTriplifyStep.StepNameField.Label"));
+        wlStepname.setText(BaseMessages.getString(PKG, "SilkStep.StepNameField.Label"));
         props.setLook(wlStepname);
-
         fdlStepname = new FormData();
         fdlStepname.left = new FormAttachment(0, 0);
         fdlStepname.right = new FormAttachment(middle, -margin);
         fdlStepname.top = new FormAttachment(0, margin);
         wlStepname.setLayoutData(fdlStepname);
-
         wStepname = new Text(shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
         wStepname.setText(stepname);
         props.setLook(wStepname);
-
         wStepname.addModifyListener(lsMod);
         fdStepname = new FormData();
         fdStepname.left = new FormAttachment(middle, 0);
         fdStepname.top = new FormAttachment(0, margin);
         fdStepname.right = new FormAttachment(100, 0);
         wStepname.setLayoutData(fdStepname);
-        Control lastControl = wStepname;
-
-        // Chama metodo que adiciona os widgets especificos da janela
-        lastControl = buildContents(lastControl, lsMod);
 
         // Bottom buttons
         wOK = new Button(shell, SWT.PUSH);
-        wOK.setText(BaseMessages.getString(PKG, "GraphTriplifyStep.Btn.OK")); //$NON-NLS-1$
+        wOK.setText(BaseMessages.getString(PKG, "SilkStep.Btn.OK")); //$NON-NLS-1$
         wCancel = new Button(shell, SWT.PUSH);
-        wCancel.setText(BaseMessages.getString(PKG, "GraphTriplifyStep.Btn.Cancel")); //$NON-NLS-1$
+        wCancel.setText(BaseMessages.getString(PKG, "SilkStep.Btn.Cancel")); //$NON-NLS-1$
         setButtonPositions(new Button[]
-        { wOK, wCancel }, margin, lastControl);
+        { wOK, wCancel }, margin, wXml);
+        
+        //Botoes para busca de arquivo 
+        wlXml=new Label(shell, SWT.RIGHT);
+		wlXml.setText("Name of the discription file ");
+ 		props.setLook(wlXml);
+		fdlXml=new FormData();
+		fdlXml.left = new FormAttachment(0, 0);
+		fdlXml.top  = new FormAttachment(wStepname, margin);
+		fdlXml.right= new FormAttachment(middle, -margin);
+		wlXml.setLayoutData(fdlXml);
+        
+        wbXml=new Button(shell, SWT.PUSH| SWT.CENTER);
+ 		props.setLook(wbXml);
+		wbXml.setText(BaseMessages.getString(PKG, "SilkStep.Btn.Browse"));
+		fdbXml=new FormData();
+		fdbXml.right= new FormAttachment(100, 0);
+		fdbXml.top  = new FormAttachment(wStepname, margin);
+		wbXml.setLayoutData(fdbXml);
+		
+		wXml=new Text(shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+ 		props.setLook(wXml);
+		wXml.addModifyListener(lsMod);
+		fdXml=new FormData();
+		fdXml.left = new FormAttachment(middle, 0);
+		fdXml.right= new FormAttachment(wbXml, -margin);
+		fdXml.top  = new FormAttachment(wStepname, margin);
+		wXml.setLayoutData(fdXml);
+		
 
         // Add listeners
         lsCancel = new Listener()
@@ -178,6 +171,41 @@ public class GraphTriplifyStepDialog extends BaseStepDialog implements
                 ok();
             }
         };
+        
+        wXml.addModifyListener(new ModifyListener()
+		{
+			public void modifyText(ModifyEvent arg0)
+			{
+				wXml.setToolTipText(transMeta.environmentSubstitute(wXml.getText()));
+			}
+		});
+        
+        wbXml.addSelectionListener
+		(
+			new SelectionAdapter()
+			{
+				public void widgetSelected(SelectionEvent e) 
+				{
+					FileDialog dialog = new FileDialog(shell, SWT.OPEN);
+					dialog.setFilterExtensions(new String[] {"*.xml;*.XML", "*"});
+					if (wXml.getText()!=null)
+					{
+						dialog.setFileName(wXml.getText());
+					}
+						
+					dialog.setFilterNames(new String[] {"XML files", "All files"});
+						
+					if (dialog.open()!=null)
+					{
+						String str = dialog.getFilterPath()+System.getProperty("file.separator")+dialog.getFileName();
+						wXml.setText(str);
+					}
+				}
+			}
+		);
+        
+        
+     
 
         wCancel.addListener(SWT.Selection, lsCancel);
         wOK.addListener(SWT.Selection, lsOK);
@@ -192,7 +220,6 @@ public class GraphTriplifyStepDialog extends BaseStepDialog implements
             }
         };
         wStepname.addSelectionListener(lsDef);
-        addSelectionListenerToControls(lsDef);
 
         // Detect X or ALT-F4 or something that kills this window...
         shell.addShellListener(new ShellAdapter()
@@ -224,22 +251,13 @@ public class GraphTriplifyStepDialog extends BaseStepDialog implements
         }
         return stepname;
     }
-    
-    private void addSelectionListenerToControls(SelectionAdapter lsDef)
-    {
-        wOutputSubject.addSelectionListener(lsDef);
-        wOutputPredicate.addSelectionListener(lsDef);
-        wOutputObject.addSelectionListener(lsDef);
-    }    
 
     private void getData()
     {
         wStepname.selectAll();
 
-        wInputGraph.setText(Const.NVL(input.getInputGraph(), ""));
-        wOutputSubject.setText(Const.NVL(input.getOutputSubject(), ""));
-        wOutputPredicate.setText(Const.NVL(input.getOutputPredicate(), ""));
-        wOutputObject.setText(Const.NVL(input.getOutputObject(), ""));
+        wXml.setText(input.getXmlFilename());
+
     }
 
     protected void cancel()
@@ -257,10 +275,7 @@ public class GraphTriplifyStepDialog extends BaseStepDialog implements
         stepname = wStepname.getText(); // return value
 
         // Pegar dados da GUI e colocar no StepMeta
-        input.setInputGraph(wInputGraph.getText());
-        input.setOutputSubject(wOutputSubject.getText());
-        input.setOutputPredicate(wOutputPredicate.getText());
-        input.setOutputObject(wOutputObject.getText());
+        input.setXmlFilename(wXml.getText());
 
         // Fecha janela
         dispose();

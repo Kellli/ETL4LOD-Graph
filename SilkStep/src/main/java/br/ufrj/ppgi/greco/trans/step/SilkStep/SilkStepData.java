@@ -1,16 +1,16 @@
-package br.ufrj.ppgi.greco.trans.step.graphtriplify;
+package br.ufrj.ppgi.greco.trans.step.SilkStep;
 
 import org.pentaho.di.core.row.RowMetaInterface;
 import org.pentaho.di.trans.step.BaseStepData;
 import org.pentaho.di.trans.step.StepDataInterface;
 
 /**
- * Guarda dados usados durante processamento do step GraphTriplify.
+ * Guarda dados usados durante processamento do step Silk.
  * 
- * @author Rogers Reiche de Mendonca
+ * @author Camila Carvalho Ferreira
  * 
  */
-public class GraphTriplifyStepData extends BaseStepData implements
+public class SilkStepData extends BaseStepData implements
         StepDataInterface
 {
     public RowMetaInterface outputRowMeta;
