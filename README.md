@@ -17,6 +17,6 @@ Reads a RDF graph data, evaluate its semantic expressivity level and creates a n
 
 Read a RDF Graph and generates the corresponding triples.
 
-Prototype application
+Application Prototype
 =====================
-http://greco.ppgi.ufrj.br/lodbr/index.php/principal/adapta/
+Details available at http://greco.ppgi.ufrj.br/lodbr/index.php/principal/adapta/
